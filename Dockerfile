@@ -10,3 +10,6 @@ RUN mkdir -p /freqtrade/user_data/
 
 # We skip 'freqtrade install-ui' because it's already in the official image
 # and avoids hitting GitHub API rate limits during the build on Render.
+
+# Unset the official image's ENTRYPOINT to allow render.yaml to run full shell commands
+ENTRYPOINT []
