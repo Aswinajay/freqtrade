@@ -4,7 +4,7 @@ services:
     env: docker
     plan: free
     # Override the default ENTRYPOINT to ensure we pick up the Render $PORT
-    dockerCommand: "trade --config config-render.json --db-url $DATABASE_URL --api-server-listen-port $PORT"
+    dockerCommand: "freqtrade trade --config config-render.json --db-url $DATABASE_URL --api-server-listen-port $PORT"
     envVars:
       - key: FT_APP_ENV
         value: "docker"
