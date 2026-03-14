@@ -5,8 +5,10 @@ FROM freqtradeorg/freqtrade:stable
 # This ensures your strategies and custom configs are included
 COPY --chown=ftuser:ftuser . /freqtrade/
 
-# Ensure the user_data directory is present
-RUN mkdir -p /freqtrade/user_data/
+# Ensure the user_data directory is present and owned by ftuser
+USER root
+RUN mkdir -p /freqtrade/user_data/ && chown -R ftuser:ftuser /freqtrade/user_data/
+USER ftuser
 
 # We skip 'freqtrade install-ui' because it's already in the official image
 # and avoids hitting GitHub API rate limits during the build on Render.
