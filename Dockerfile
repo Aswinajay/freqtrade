@@ -12,6 +12,10 @@ USER ftuser
 
 # We skip 'freqtrade install-ui' because it's already in the official image
 # and avoids hitting GitHub API rate limits during the build on Render.
+# However, we DO need to install PostgreSQL support and some missing dependencies for our strategies.
+USER root
+RUN pip install --no-cache-dir psycopg2-binary pandas-ta
+USER ftuser
 
 # Copy the entrypoint script and make it executable
 COPY entrypoint-render.sh /freqtrade/
