@@ -114,17 +114,17 @@ class FreqtradeBot(LoggingMixin):
         self.margin_mode: MarginMode = self.config.get("margin_mode", MarginMode.NONE)
         self.last_process: datetime | None = None
 
+        self.dataprovider = DataProvider(self.config, self.exchange)
+        self.pairlists = PairListManager(self.exchange, self.config, self.dataprovider)
+        self.dataprovider.add_pairlisthandler(self.pairlists)
+
         # RPC runs in separate threads, can start handling external commands just after
         # initialization, even before Freqtradebot has a chance to start its throttling,
         # so anything in the Freqtradebot instance should be ready (initialized), including
         # the initial state of the bot.
         # Keep this at the end of this initialization method.
         self.rpc: RPCManager = RPCManager(self)
-
-        self.dataprovider = DataProvider(self.config, self.exchange, rpc=self.rpc)
-        self.pairlists = PairListManager(self.exchange, self.config, self.dataprovider)
-
-        self.dataprovider.add_pairlisthandler(self.pairlists)
+        self.dataprovider.set_rpc(self.rpc)
 
         # Attach Dataprovider to strategy instance
         self.strategy.dp = self.dataprovider

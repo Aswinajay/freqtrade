@@ -292,6 +292,12 @@ class DataProvider:
         """
         self._pairlists = pairlists
 
+    def set_rpc(self, rpc: Any) -> None:
+        """
+        Allow adding rpc after initialization
+        """
+        self.__rpc = rpc
+
     def historic_ohlcv(self, pair: str, timeframe: str, candle_type: str = "") -> DataFrame:
         """
         Get stored historical candle (OHLCV) data
