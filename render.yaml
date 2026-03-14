@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: freqtrade-bot
+    env: docker
+    plan: free
+    # Override the default ENTRYPOINT to ensure we pick up the Render $PORT
+    dockerCommand: "trade --config config-render.json --db-url $DATABASE_URL --api-server-listen-port $PORT"
+    envVars:
+      - key: FT_APP_ENV
+        value: "docker"
+      - key: FREQTRADE__API_SERVER__LISTEN_IP_ADDRESS
+        value: "0.0.0.0"
+      - key: FREQTRADE__API_SERVER__ENABLED
+        value: "true"
+      - fromDatabase:
+          name: freqtrade-db
+          property: connectionString
+        key: DATABASE_URL
+      - key: FREQTRADE__DRY_RUN
+        value: "true" # Set to false for live trading
+      - key: FREQTRADE__API_SERVER__USERNAME
+        value: "admin"
+      - key: FREQTRADE__API_SERVER__PASSWORD
+        generateValue: true # Render will generate a secure password for you
+      - key: FREQTRADE__API_SERVER__JWT_SECRET_KEY
+        generateValue: true
+
+databases:
+  - name: freqtrade-db
+    plan: free
+    region: oregon # Ensure this matches your web service region
