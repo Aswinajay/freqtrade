@@ -14,7 +14,7 @@ USER ftuser
 # and avoids hitting GitHub API rate limits during the build on Render.
 # However, we DO need to install PostgreSQL support and some missing dependencies for our strategies.
 USER root
-RUN pip install --no-cache-dir psycopg2-binary pandas-ta
+RUN pip install --no-cache-dir psycopg2-binary pandas-ta ta
 USER ftuser
 
 # Copy the entrypoint script and make it executable

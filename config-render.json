@@ -55,7 +55,24 @@
     },
     "pairlists": [
         {
-            "method": "StaticPairList"
+            "method": "VolumePairList",
+            "number_assets": 20,
+            "sort_key": "quoteVolume",
+            "min_value": 0,
+            "refresh_period": 1800,
+            "lookback_days": 1
+        },
+        {
+            "method": "AgeFilter",
+            "min_days_listed": 30
+        },
+        {
+            "method": "SpreadFilter",
+            "max_spread_ratio": 0.01
+        },
+        {
+            "method": "PriceFilter",
+            "min_price": 0.0001
         }
     ],
     "api_server": {
