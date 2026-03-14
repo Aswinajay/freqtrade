@@ -28,5 +28,6 @@ done
 
 # Execute Freqtrade with the remaining arguments.
 # We use 'exec' so Freqtrade becomes the main process (PID 1) and handles signals correctly.
+# We use the absolute path to ensure it's found regardless of PATH settings.
 echo "Info: Starting Freqtrade with arguments: ${args[*]}"
-exec freqtrade "${args[@]}"
+exec /home/ftuser/.local/bin/freqtrade "${args[@]}"

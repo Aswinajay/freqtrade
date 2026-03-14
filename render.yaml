@@ -3,8 +3,8 @@ services:
     name: freqtrade-bot
     env: docker
     plan: free
-    # The custom entrypoint-render.sh handles the port and argument filtering.
-    dockerCommand: "trade --config config-render.json --db-url $DATABASE_URL"
+    # Explicitly call the entrypoint script to bypass PATH/ENTRYPOINT issues on Render.
+    dockerCommand: "/freqtrade/entrypoint-render.sh trade --config config-render.json --db-url $DATABASE_URL"
     envVars:
       - key: FT_APP_ENV
         value: "docker"
