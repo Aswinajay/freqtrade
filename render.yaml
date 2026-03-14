@@ -3,11 +3,13 @@ services:
     name: freqtrade-bot
     env: docker
     plan: free
-    # Use absolute path to bypass PATH issues and ensure we handle the entrypoint override
-    dockerCommand: "/home/ftuser/.local/bin/freqtrade trade --config config-render.json --db-url $DATABASE_URL --api-server-listen-port $PORT"
+    # Use absolute path to ensure Render finds the executable even if ENTRYPOINT is overridden.
+    dockerCommand: "/home/ftuser/.local/bin/freqtrade trade --config config-render.json --db-url $DATABASE_URL"
     envVars:
       - key: FT_APP_ENV
         value: "docker"
+      - key: FREQTRADE__API_SERVER__LISTEN_PORT
+        fromContext: port
       - key: FREQTRADE__API_SERVER__LISTEN_IP_ADDRESS
         value: "0.0.0.0"
       - key: FREQTRADE__API_SERVER__ENABLED
