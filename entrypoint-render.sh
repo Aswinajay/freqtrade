@@ -10,6 +10,10 @@ if [ -n "$PORT" ]; then
     echo "Info: Mapping Render PORT ($PORT) to FREQTRADE__API_SERVER__LISTEN_PORT"
 fi
 
+# Debug: List contents of strategies directory to verify deployment
+echo "Debug: Contents of /freqtrade/user_data/strategies/:"
+ls -F /freqtrade/user_data/strategies/ || echo "Warning: /freqtrade/user_data/strategies/ not found"
+
 # Filter out the '--api-server-listen-port' argument that Render automatically appends.
 # Freqtrade's 'trade' command doesn't recognize this flag and will crash if it's present.
 args=()
