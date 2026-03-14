@@ -13,10 +13,16 @@ fi
 # Filter out the '--api-server-listen-port' argument that Render automatically appends.
 # Freqtrade's 'trade' command doesn't recognize this flag and will crash if it's present.
 args=()
+has_db_url=false
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --api-server-listen-port)
             # Skip the flag and its value
+            shift 2
+            ;;
+        --db-url)
+            has_db_url=true
+            args+=("$1" "$2")
             shift 2
             ;;
         *)
@@ -25,6 +31,12 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+# If DATABASE_URL is set (from Render) and not already in args, add it.
+if [ "$has_db_url" = false ] && [ -n "$DATABASE_URL" ]; then
+    echo "Info: Adding --db-url from environment variable"
+    args+=("--db-url" "$DATABASE_URL")
+fi
 
 # Execute Freqtrade with the remaining arguments.
 # We use 'exec' so Freqtrade becomes the main process (PID 1) and handles signals correctly.

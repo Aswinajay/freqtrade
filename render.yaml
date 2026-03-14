@@ -3,8 +3,8 @@ services:
     name: freqtrade-bot
     env: docker
     plan: free
-    # Explicitly call the entrypoint script to bypass PATH/ENTRYPOINT issues on Render.
-    dockerCommand: "/freqtrade/entrypoint-render.sh trade --config config-render.json --db-url $DATABASE_URL"
+    # Remove explicit dockerCommand and let the Dockerfile's ENTRYPOINT + CMD handle it.
+    # This avoids Render Blueprint sync issues with the startup command.
     envVars:
       - key: FT_APP_ENV
         value: "docker"

@@ -19,3 +19,6 @@ USER ftuser
 
 # Use the custom entrypoint to handle Render's dynamic port and argument injection
 ENTRYPOINT ["/freqtrade/entrypoint-render.sh"]
+
+# Default command if not overridden (handles the 'trade' subcommand)
+CMD ["trade", "--config", "config-render.json"]
