@@ -3,13 +3,11 @@ services:
     name: freqtrade-bot
     env: docker
     plan: free
-    # Use absolute path to ensure Render finds the executable even if ENTRYPOINT is overridden.
-    dockerCommand: "/home/ftuser/.local/bin/freqtrade trade --config config-render.json --db-url $DATABASE_URL"
+    # Use a shell wrapper to map Render's dynamic $PORT to Freqtrade's expected env var.
+    dockerCommand: "sh -c 'export FREQTRADE__API_SERVER__LISTEN_PORT=$PORT && /home/ftuser/.local/bin/freqtrade trade --config config-render.json --db-url $DATABASE_URL'"
     envVars:
       - key: FT_APP_ENV
         value: "docker"
-      - key: FREQTRADE__API_SERVER__LISTEN_PORT
-        fromContext: port
       - key: FREQTRADE__API_SERVER__LISTEN_IP_ADDRESS
         value: "0.0.0.0"
       - key: FREQTRADE__API_SERVER__ENABLED
