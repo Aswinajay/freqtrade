@@ -3,9 +3,8 @@ services:
     name: freqtrade-bot
     env: docker
     plan: free
-    # Use a shell wrapper to map Render's dynamic $PORT to Freqtrade's expected env var.
-    # The '--' at the end ensures any arguments injected by Render are ignored by the script itself.
-    dockerCommand: "sh -c 'export FREQTRADE__API_SERVER__LISTEN_PORT=$PORT && exec /home/ftuser/.local/bin/freqtrade trade --config config-render.json --db-url $DATABASE_URL' --"
+    # The custom entrypoint-render.sh handles the port and argument filtering.
+    dockerCommand: "trade --config config-render.json --db-url $DATABASE_URL"
     envVars:
       - key: FT_APP_ENV
         value: "docker"

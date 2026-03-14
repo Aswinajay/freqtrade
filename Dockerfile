@@ -11,5 +11,11 @@ RUN mkdir -p /freqtrade/user_data/
 # We skip 'freqtrade install-ui' because it's already in the official image
 # and avoids hitting GitHub API rate limits during the build on Render.
 
-# Unset the official image's ENTRYPOINT to allow render.yaml to run full shell commands
-ENTRYPOINT []
+# Copy the entrypoint script and make it executable
+COPY entrypoint-render.sh /freqtrade/
+USER root
+RUN chmod +x /freqtrade/entrypoint-render.sh
+USER ftuser
+
+# Use the custom entrypoint to handle Render's dynamic port and argument injection
+ENTRYPOINT ["/freqtrade/entrypoint-render.sh"]
