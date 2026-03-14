@@ -3,8 +3,8 @@ services:
     name: freqtrade-bot
     env: docker
     plan: free
-    # Override the default ENTRYPOINT to ensure we pick up the Render $PORT
-    dockerCommand: "freqtrade trade --config config-render.json --db-url $DATABASE_URL --api-server-listen-port $PORT"
+    # Use absolute path to bypass PATH issues and ensure we handle the entrypoint override
+    dockerCommand: "/home/ftuser/.local/bin/freqtrade trade --config config-render.json --db-url $DATABASE_URL --api-server-listen-port $PORT"
     envVars:
       - key: FT_APP_ENV
         value: "docker"
